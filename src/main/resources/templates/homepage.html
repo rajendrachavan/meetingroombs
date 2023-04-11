@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Homepage</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/design.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand active" href="#">Book A MeetingRoom</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li th:if="${role} == 'ADMIN'" class="dropdownNav">
+                <a href="/admin/user-management/1">Users</a>
+                <div class="dropdownNav-content">
+                    <a class="btn btn-default" href="/change-requests">Change Requests</a>
+                    <a class="btn btn-default" href="/admin/assign-users">Assign Users</a>
+                </div>
+            </li>
+            <li th:if="${role} == 'USER' or ${role} == 'TL' or ${role} == 'PM'" class="dropdownNav">
+                <a href="/user/user-profile">My Profile</a>
+                <div class="dropdownNav-content">
+                    <a class="btn btn-default" href="/user/profile-change-requests">My Change Request Status</a>
+                    <a th:if="${role} == 'TL' or ${role} == 'PM'" class="btn btn-default" href="/change-requests">User Requests</a>
+                </div>
+            </li>
+            <li><a href="/meeting-room-details/1">Rooms</a></li>
+            <li th:if="${role} == 'USER' or ${role} == 'TL' or ${role} == 'PM'" class="dropdownNav">
+                <a href="/user/booking-status/1">Bookings</a>
+                <div class="dropdownNav-content">
+                    <a class="btn btn-default" href="/booking-history">Booking History</a>
+                </div>
+            </li>
+            <li th:if="${role} == 'ADMIN'"><a href="/admin/booking-requests/1">Bookings</a></li>
+            <li th:if="${role} == 'USER' or ${role} == 'TL' or ${role} == 'PM'"><a href="/user/feedback">Feedback</a></li>
+            <li th:if="${role} == 'ADMIN'"><a href="/admin/feedback">Feedback</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="panel-group" style="margin-top:40px">
+        <div class="panel panel-primary">
+            <div th:switch="${role}" class="panel-heading">
+                <h4 th:case="ADMIN">Admin Console</h4>
+                <h4 th:case="PM">Project Manager Console</h4>
+                <h4 th:case="TL">Team Leader Console</h4>
+                <h4 th:case="USER">User Console</h4>
+                <span th:utext="${userName}"></span>
+            </div>
+            <div class="panel-body">
+                <h4><strong>Notifications</strong></h4>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <tbody>
+                        <tr th:each="notification: ${notifications}">
+                            <td th:if="${notification.status == T(neo.spring5.meetingroombooking.models.Status).Unread}"
+                                style="font-weight:bold">
+                                <a th:href="@{/read/{id}(id=${notification.id})}" th:text="${notification.description}">Unread &nbsp;<i class="fas fa-caret-right"></i></a>
+                            </td>
+                            <td th:unless="${notification.status == T(neo.spring5.meetingroombooking.models.Status).Unread}">
+                                <a th:href="@{/read/{id}(id=${notification.id})}" th:text="${notification.description}">Read</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td th:text="${noNotifications}" style="text-align:center">No Notifications</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

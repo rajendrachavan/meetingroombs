@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Change Request</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/design.css}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/homepage">
+                <i class="fas fa-chevron-circle-left"></i></a>
+            <a class="navbar-brand" href="/homepage">Book A MeetingRoom</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="dropdownNav active">
+                <a href="/user/user-profile">My Profile</a>
+                <div class="dropdownNav-content">
+                    <a class="btn btn-default active" href="/user/profile-change-requests">My Change Request Status</a>
+                    <a th:if="${role} == 'TL' or ${role} == 'PM'" class="btn btn-default" href="/change-requests">User Requests</a>
+                </div>
+            </li>
+            <li><a href="/meeting-room-details/1">Rooms</a></li>
+            <li class="dropdownNav">
+                <a href="/user/booking-status/1">Bookings</a>
+                <div class="dropdownNav-content">
+                    <a class="btn btn-default" href="/booking-history">Booking History</a>
+                </div>
+            </li>
+            <li><a href="/user/feedback">Feedback</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="panel-group" style="margin-top:25px">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4><span>Change Requests</span></h4>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Old </th>
+                        <th>New </th>
+                        <th>Status</th>
+                        <th>Operations</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${noRecords}"><td colspan="7" style="font-size: 20; color:#FF1C19; text-align:center" th:utext="${noRecords}">no records</td></tr>
+                    <tr th:each="changeRequest: ${requests}">
+                        <td th:text="${changeRequest.type}">Test</td>
+                        <td th:text="${changeRequest.oldValue}">Class</td>
+                        <td th:text="${changeRequest.newValue}">Class</td>
+                        <td th:text="${changeRequest.status}">Pending</td>
+
+                        <td th:if="${changeRequest.status == T(neo.spring5.meetingroombooking.models.Status).Pending}">
+                            <form th:action="@{/user/cancelChangeRequest/{id}(id=${changeRequest.id})}" method="post">
+                                <button class="btn btn-danger" name="confirm"
+                                        type="Submit">Cancel Request</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div>
+                    <p class="text-center" style="font-size: 20; color:#00BF6F;" th:utext="${successMessage}"></p>
+                    <p class="text-center" style="font-size: 20; color:#FF1C19;" th:utext="${errorMessage}"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

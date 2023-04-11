@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Facilities</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/design.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/meeting-room-details/1"><i class="fas fa-chevron-circle-left"></i></a>
+            <a class="navbar-brand" href="/homepage">Book A MeetingRoom</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="dropdownNav">
+                <a href="/admin/user-management/1">Users</a>
+                <div class="dropdownNav-content">
+                    <a class="btn btn-default" href="/change-requests">Change Requests</a>
+                    <a class="btn btn-default" href="/admin/assign-users">Assign Users</a>
+                </div>
+            </li>
+            <li class="active"><a href="/meeting-room-details/1">Rooms</a></li>
+            <li><a href="/admin/booking-requests/1">Bookings</a></li>
+            <li><a href="/admin/feedback">Feedback</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="panel-group" style="margin-top:25px">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4><span>Facilities</span></h4>
+                <span th:utext="${userName}"></span>
+                <div style="float:right;">
+                </div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Facility</th>
+                        <th>Operations</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="facility: ${facilities}">
+                        <td th:text="${facility.id}">1</td>
+                        <td th:text="${facility.facility}">Test</td>
+                        <td>
+                            <a th:href="@{/admin/deleteFacility/{id}(id=${facility.id})}" class="btn btn-danger"
+                               onclick="return confirm('Are you sure you want to Delete this facility?');">Delete</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <form th:action="@{/admin/addFacility}" method="get">
+                    <td><input type="text" name="newFacility" placholder="Enter Facility"></td>
+                    <td><button class="button2" name="addFacilities" type="Submit">Add</button></td>
+                </form>
+            </div>
+            <div>
+                <p class="text-center" style="font-size: 20; color:#00BF6F;" th:utext="${successMessage}"></p>
+                <p class="text-center" style="font-size: 20; color:#FF1C19;" th:utext="${errorMessage}"></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+/*===========Button Design=================*/
+.button{
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    transition-duration: 0.3s;
+    cursor: pointer;
+}
+.button1{
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+}
+.button1:hover {
+    background-color: black;
+    color: white;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.button2{
+    background-color: white;
+    color:black;
+    border: 2px solid black;
+}
+.button2:hover {
+    background-color: black;
+    color: white;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+.title {
+    color: red;
+}
+.centered {
+    padding: 25px 25px 25px 25px;
+}
+
+/*====================NavBar Dropdown=================*/
+.dropdownNav {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdownNav-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdownNav-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdownNav-content a:hover {background-color: #ddd;}
+.dropdownNav:hover .dropdownNav-content {display: block;}
+
+/*==================Anchor tag==========================*/
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: underline;
+}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Assign Users</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/design.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/homepage"><i class="fas fa-chevron-circle-left"></i></a>
+            <a class="navbar-brand" href="/homepage">Book A MeetingRoom</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="dropdownNav active">
+                <a href="/admin/user-management/1">Users</a>
+                <div class="dropdownNav-content">
+                    <a class="btn btn-default" href="/change-requests">Change Requests</a>
+                    <a class="btn btn-default" href="/admin/assign-users">Assign Users</a>
+                </div>
+            </li>
+            <li><a href="/meeting-room-details/1">Rooms</a></li>
+            <li><a href="/admin/booking-requests/1">Bookings</a></li>
+            <li><a href="/admin/feedback">Feedback</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="panel-group" style="margin-top:25px">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4><span>Assign Users</span></h4>
+                <div class="btn-group btn-group">
+                    <a th:href="@{/admin/assign-users/TL}" class="btn btn-default">TL</a>
+                    <a th:href="@{/admin/assign-users}" class="btn btn-default">User</a>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Department</th>
+                            <th colspan="2">Assign</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user: ${users}">
+                            <td th:text="${user.id}">1</td>
+                            <td>
+                                <span th:text="${user.firstName}">fname</span>&nbsp;
+                                <span th:text="${user.lastName}">lname</span>
+                            </td>
+                            <td th:text="${user.Department.name}">testdept</td>
+                            <form th:if="${temp} == 1" th:action="@{/admin/assign-users/{id}(id=${user.id})}" method="post">
+                                <td>
+                                    <div>
+                                        <select required class="form-control" name="parent_id" >
+                                            <option th:each="parent: ${parents}"
+                                                    th:if="${user.Department.name} == ${parent.Department.name}"
+                                                    th:value="${parent.id}">
+                                                <span th:text="${parent.firstName}">fname</span>&nbsp;
+                                                <span th:text="${parent.lastName}">lname</span>&nbsp;
+                                                (&nbsp;<span th:text="${parent.Department.name}">IT</span>&nbsp;)
+                                            </option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-primary">Assign</button>
+                                </td>
+                            </form>
+                            <form th:unless="${temp} == 1" th:action="@{/admin/assign-users/{id}(id=${user.id})}" method="post">
+                                <td>
+                                    <div>
+                                        <select required class="form-control" name="parent_id" >
+                                            <option th:each="parent: ${parents}" th:value="${parent.id}">
+                                                <span th:text="${parent.firstName}">fname</span>&nbsp;
+                                                <span th:text="${parent.lastName}">lname</span>&nbsp;
+                                                (&nbsp;<span th:text="${parent.Department.name}">IT</span>&nbsp;)
+                                            </option>
+                                        </select>
+                                    </div>
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-primary">Assign</button>
+                                </td>
+                            </form>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div>
+                <p class="text-center" style="font-size: 20; color:#00BF6F;" th:utext="${successMessage}"></p>
+                <p class="text-center" style="font-size: 20; color:#FF1C19;" th:utext="${errorMessage}"></p>
+            </div>
+        </div>
+    </div>
+    <div class="row" th:fragment="pagination">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <nav aria-label="Pagination">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:each="pageNumber : ${pageNumbers}" >
+                        <a class="page-link" th:href="@{|/admin/user-management/${pageNumber}|}" th:text=${pageNumber}>1</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+</body>
+</html>

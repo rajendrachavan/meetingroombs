@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Admin Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/design.css}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <script	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/homepage"><i class="fas fa-chevron-circle-left"></i></a>
+            <a class="navbar-brand" href="/homepage">Book A MeetingRoom</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="dropdownNav">
+                <a href="/admin/user-management/1">Users</a>
+                <div class="dropdownNav-content">
+                    <a class="btn btn-default" href="/change-requests">Change Requests</a>
+                    <a class="btn btn-default" href="/admin/assign-users">Assign Users</a>
+                </div>
+            </li>
+            <li><a href="/meeting-room-details/1">Rooms</a></li>
+            <li><a href="/admin/booking-requests/1">Bookings</a></li>
+            <li class="active"><a href="/admin/feedback">Feedback</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="panel-group" style="margin-top:25px">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4><span>Feedback</span></h4>
+                <span th:utext="${userName}"></span>
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Feedback</th>
+                            <th>Operations</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="feedback: ${feedbackAll}">
+                            <td th:text="${feedback.id}">1</td>
+                            <td>
+                                <span th:text="${feedback.user.firstName}">fname</span>&nbsp;
+                                <span th:text="${feedback.user.lastName}">lname</span>
+                            </td>
+                            <td th:text="${feedback.content}">content</td>
+                            <td>
+                                <form th:action="@{/admin/emailFeedback/{id}(id=${feedback.id})}">
+                                    <textarea rows="4" cols="30" class="form-control" name="email-content"
+                                              placeholder="Enter your response here..." required></textarea>
+                                    <td><input class="btn btn-primary" type="submit" value="Send Reply"></td>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div>
+                <p class="text-center" style="font-size: 20; color:#00BF6F;" th:utext="${successMessage}"></p>
+                <p class="text-center" style="font-size: 20; color:#FF1C19;" th:utext="${errorMessage}"></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

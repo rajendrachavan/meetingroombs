@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>User profile</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/design.css}" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/homepage">
+                <i class="fas fa-chevron-circle-left"></i></a>
+            <a class="navbar-brand" href="/homepage">Book A MeetingRoom</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li class="dropdownNav active">
+                <a href="/user/user-profile">My Profile</a>
+                <div class="dropdownNav-content">
+                    <a class="btn btn-default" href="/user/profile-change-requests">My Change Request Status</a>
+                    <a th:if="${role} == 'TL' or ${role} == 'PM'" class="btn btn-default" href="/change-requests">User Requests</a>
+                </div>
+            </li>
+            <li><a href="/meeting-room-details/1">Rooms</a></li>
+            <li class="dropdownNav">
+                <a href="/user/booking-status/1">Bookings</a>
+                <div class="dropdownNav-content">
+                    <a class="btn btn-default" href="/booking-history">Booking History</a>
+                </div>
+            </li>
+            <li><a href="/user/feedback">Feedback</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a th:href="@{/logout}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <div class="panel-group" style="margin-top:25px">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h4><span th:utext="${userProfile}">User-Profile</span></h4>
+                <span>&nbsp;</span>
+                <div style="float:right;">
+                    <form th:action="@{/user/edit-user-profile}" method="get">
+                        <button class="button2" name="user-profile"
+                                type="Submit"><i class="fas fa-user-edit ml-2"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="panel-body">
+                <table class="table table-hover">
+                    <thead>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th>Firstname</th>
+                        <td th:text="${user.firstName}">Test</td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <th>Lastname</th>
+                        <td th:text="${user.lastName}">Class</td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <th>Gender</th>
+                        <td th:text="${user.gender}">male</td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <th>Mobile No</th>
+                        <td th:text="${user.mobileNo}">123456789</td>
+                        <td> </td>
+                    </tr>
+                    <tr th:if="${role} == 'USER'">
+                        <th>Team Leader</th>
+                        <td th:if="${user.parent} == null"><span>Not Assigned.</span></td>
+                        <td th:if="${user.parent} != null"><span th:text="${user.parent.firstName}"></span>&nbsp;<span th:text="${user.parent.lastName}"></span></td>
+                        <td> </td>
+                    </tr>
+                    <tr th:if="${role} == 'TL'">
+                        <th>Project Manager</th>
+                        <td th:if="${user.parent} == null"><span>Not Assigned.</span></td>
+                        <td th:if="${user.parent} != null"><span th:text="${user.parent.firstName}"></span>&nbsp;<span th:text="${user.parent.lastName}"></span></td>
+                        <td> </td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td th:text="${user.email}">test@example.com</td>
+                        <td>
+                            <form th:action="@{/user/changeEmail}" method="get">
+                                <button class="button2" name="changeEmail"
+                                        type="Submit">Change Email Id</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>Department</th>
+                        <td th:text="${user.Department.name}">testdept</td>
+                        <td>
+                            <form th:action="@{/user/changeDepartment}" method="get">
+                                <button class="button2" name="changeDepartment"
+                                        type="Submit">Change Department</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <form th:action="@{/user/changePassword}" method="get">
+                                <button class="button2" name="changePassword"
+                                        type="Submit">Change Password</button>
+                            </form>
+                        </th>
+                        <td> </td>
+                        <td> </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <p class="text-center" style="font-size: 20; color:#00BF6F;" th:utext="${successMessage}"></p>
+                <p class="text-center" style="font-size: 20; color:#FF1C19;" th:utext="${errorMessage}"></p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</body>
+</html>
