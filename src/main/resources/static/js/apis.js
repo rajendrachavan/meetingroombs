@@ -4,7 +4,6 @@ async function generatePass() {
     const resp = await fetch("http://meetingroombooking-env-1.eba-p3jrwpav.us-east-1.elasticbeanstalk.com:5000/utility/create/crypt-password");
     const resData = await resp.json();
 
-
     if(resData.status === 200){
         console.log(resData);
         let pass = resData.data;
@@ -48,13 +47,15 @@ async function csvToJson() {
     });
     var jsonData = await response.json(); // parse the response as JSON
     console.log(jsonData); // log the JSON data to the console
+    $("#info").html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+    $("#info").append("File data uploaded for batch booking!");
   } catch (error) {
     console.error(error); // log any errors to the console
   }
 }
 
 //Fetching Holidays from External API
-const apiGetHolidays = "https://holidays.abstractapi.com/v1/?api_key=aca3700e1738496494153157a635d1ec&country=IE&year=2023&month=04&day=10";
+const apiGetHolidays = "https://holidays.abstractapi.com/v1/?api_key=aca3700e1738496494153157a635d1ec&country=IE&year=2023&month=05&day=1";
 
 async function getHolidays() {
     console.log("Inside GetHolidays Method!");
@@ -66,6 +67,9 @@ async function getHolidays() {
         });
         var jsonData = await response.json(); // parse the response as JSON
         console.log(jsonData); // log the JSON data to the console
+        var info = jsonData[0].name + " on " + jsonData[0].date + " (" + jsonData[0].week_day + ")"
+        $("#info").html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+        $("#info").append(info);
       } catch (error) {
         console.error(error); // log any errors to the console
       }

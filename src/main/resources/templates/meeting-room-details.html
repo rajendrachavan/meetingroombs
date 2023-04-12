@@ -82,9 +82,6 @@
                                 &nbsp;&nbsp;
                                 <input class="button2" type="submit" value="Check Availability">
                             </td>
-                            <td>&nbsp;&nbsp;
-                                <input class="button2" onclick="getHolidays()" value="Check Holidays">
-                            </td>
                         </tr>
                     </form>
                 </table>
@@ -92,10 +89,18 @@
                     <p class="text-center" style="font-size: 20; color:#FF1C19;" th:utext="${errorDate}"></p>
                 </div>
                 <hr>
+                <div>
+                    <span>
                         <label>Select a csv file for batch booking:</label>
                         <input type="file" id="file" name="file"><br>
                         <button class="button2" onclick="csvToJson()">Upload</button>
-                <hr>
+                    </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <span>
+                        <button class="button2" onclick="getHolidays()">Check Upcoming Holiday</button><br><br>
+                        <p id="info" style="color: white; background-color: green; width: 25%"></p>
+                    </span>
+                    <hr>
+                </div>
             </div>
             <table class="table table-hover">
                 <thead>
