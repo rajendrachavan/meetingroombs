@@ -47,8 +47,18 @@ async function csvToJson() {
     });
     var jsonData = await response.json(); // parse the response as JSON
     console.log(jsonData); // log the JSON data to the console
-    $("#info").html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
-    $("#info").append("File data uploaded for batch booking!");
+    $("#info").html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+    $("#info").css({"color":"white", "background-color": "green", "width": "25%"});
+    if(jsonData.length > 1) {
+        $("#info").append("File data uploaded for batch booking!");
+    } else if(jsonData.message.length > 0)  {
+        $("#info").css({"background-color": "red", "width": "35%"});
+        $("#info").append("File data uploading failed due to: " + jsonData.message);
+    } else {
+        $("#info").css({"background-color": "red", "width": "25%"});
+        $("#info").append("File data uploading failed!");
+    }
+
   } catch (error) {
     console.error(error); // log any errors to the console
   }
@@ -69,6 +79,7 @@ async function getHolidays() {
         console.log(jsonData); // log the JSON data to the console
         var info = jsonData[0].name + " on " + jsonData[0].date + " (" + jsonData[0].week_day + ")"
         $("#info").html("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
+        $("#info").css({"color":"white", "background-color": "green", "width": "25%"});
         $("#info").append(info);
       } catch (error) {
         console.error(error); // log any errors to the console

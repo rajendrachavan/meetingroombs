@@ -2,17 +2,17 @@ server:
   port: 5000
 
 scp:
-  #url: http://meetingroombooking-env-1.eba-p3jrwpav.us-east-1.elasticbeanstalk.com:5000
-  url: http://localhost:5000
+  url: http://meetingroombooking-env-1.eba-p3jrwpav.us-east-1.elasticbeanstalk.com:5000
+  #url: http://localhost:5000
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/mrbsdb
-    username: root
-    password: root
-    #url: jdbc:mysql://scp-db.cgl9z7hguud1.us-east-1.rds.amazonaws.com:3306/mrbsdb
-    #username: admin
-    #password: x21124213
+    #url: jdbc:mysql://localhost:3306/mrbsdb
+    #username: root
+    #password: root
+    url: jdbc:mysql://scp-db.cgl9z7hguud1.us-east-1.rds.amazonaws.com:3306/mrbsdb
+    username: admin
+    password: x21124213
     testWhileIdle: true
     validationQuery: SELECT 1
   jpa:
