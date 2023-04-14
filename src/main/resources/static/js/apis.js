@@ -51,6 +51,17 @@ async function csvToJson() {
     $("#info").css({"color":"white", "background-color": "green", "width": "25%"});
     if(jsonData.length > 1) {
         $("#info").append("File data uploaded for batch booking!");
+
+        csvDataInHtml = "<thead><tr><th>Room Name</th> <th>Start Time</th> <th>End Time</th> <th>Status</th></tr></thead><tbody>";
+        jsonData.forEach((i) => {
+           csvDataInHtml += '<tr><td>'+ i.room_name +'</td>';
+           csvDataInHtml += '<td>'+ i.start_time +'</td>';
+           csvDataInHtml += '<td>'+ i.end_time +'</td>';
+           csvDataInHtml += '<td>'+ i.status +'</td><tr>';
+        });
+        csvDataInHtml += '</tbody>';
+        $("#showData").empty().html(csvDataInHtml);
+
     } else if(jsonData.message.length > 0)  {
         $("#info").css({"background-color": "red", "width": "35%"});
         $("#info").append("File data uploading failed due to: " + jsonData.message);
